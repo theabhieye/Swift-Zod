@@ -1,0 +1,33 @@
+name: PR Description Validation
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  validate-pr-description:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure PR description exists
+        # pass PR body via env (safe; not executed)
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          # Use the env var (it is NOT executed; it's data)
+          BODY="$PR_BODY"
+
+          echo "PR Body preview (first 300 chars):"
+          printf '%s\n' "${BODY:0:300}"
+
+          # Remove all whitespace and check if anything remains
+          if [ -z "$(printf '%s' "$BODY" | tr -d '[:space:]')" ]; then
+            echo "::error ::PR description cannot be empty. Please add details before requesting review."
+            exit 1
+          fi
+
+          echo "✔ PR description exists."
