@@ -13,55 +13,19 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      # -------------------------------
-      # 🔍 1. Enforce PR Title Format
-      # -------------------------------
-      - name: Validate PR title
-        id: title
-        run: |
-          TITLE="${{ github.event.pull_request.title }}"
-          echo "PR Title: $TITLE"
-
-          # Example enforced format: "feat: xxx", "fix: xxx", "docs: xxx"
-          if ! [[ "$TITLE" =~ ^(feat|fix|docs|refactor|test|chore): ]]; then
-            echo "::error ::PR title must start with one of: feat:, fix:, docs:, refactor:, test:, chore:"
-            exit 1
-          fi
-
-      # -------------------------------
-      # 🧩 2. Ensure Issue is Linked
-      # -------------------------------
-      - name: Validate issue reference
-        id: issue
+      # ------------------------------------
+      # 📝 Ensure PR Description is not empty
+      # ------------------------------------
+      - name: Ensure PR description exists
         run: |
           BODY="${{ github.event.pull_request.body }}"
           echo "PR Body:"
           echo "$BODY"
 
-          # Look for: Closes #123, Fixes #123, Resolves #123
-          if ! grep -iqE "closes\s+#\d+|fix(es)?\s+#\d+|resolve(s)?\s+#\d+" <<< "$BODY"; then
-            echo "::warning ::PR does not reference an issue. (Recommended but not required)"
+          # Check if description is empty or only whitespace
+          if [[ -z "$BODY" || "$BODY" =~ ^[[:space:]]*$ ]]; then
+            echo "::error ::PR description cannot be empty. Please add details before requesting review."
+            exit 1
           fi
 
-      # -------------------------------
-      # ☑️ 3. Enforce Checklist items
-      #     (Blocking if not checked)
-      # -------------------------------
-      - name: Validate required checklist items
-        id: checklist
-        run: |
-          BODY="${{ github.event.pull_request.body }}"
-
-          REQUIRED=(
-            "- [x] Code compiles and runs"
-            "- [x] No warnings or errors"
-            "- [x] Linting passes"
-            "- [x] Ready for review"
-          )
-
-          for item in "${REQUIRED[@]}"; do
-            if ! grep -Fq "$item" <<< "$BODY"; then
-              echo "::error ::Missing required checklist item: $item"
-              exit 1
-            fi
-          done
+          echo "✔ PR description exists."
