@@ -1,0 +1,30 @@
+# Ensure consistent line endings across all platforms
+* text=auto
+
+# Force LF line endings for source code
+*.swift text eol=lf
+*.md    text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.json  text eol=lf
+*.sh    text eol=lf
+*.gitignore text eol=lf
+*.gitattributes text eol=lf
+
+# Mark binary files so Git doesn’t try to diff/merge them
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.zip   binary
+
+# Improve GitHub linguist classification for Swift package
+Sources/** linguist-language=Swift
+Tests/**   linguist-language=Swift
+
+# Ignore vendored code from being counted as yours (if ever added)
+vendor/** linguist-vendored=true
+
+# Normalize casing differences (useful on macOS vs Linux)
+* -crlf
+
