@@ -1,33 +1,27 @@
-name: PR Validation
+name: PR Description Validation
 
 on:
   pull_request:
     types: [opened, edited, synchronize]
 
 jobs:
-  validate:
-    name: Validate Pull Request Description
+  validate-pr-description:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check out code
+      - name: Check out repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      # -----------------------------------------------------------
-      # 📝 Ensure PR Description (Body) is NOT empty (safe version)
-      # -----------------------------------------------------------
       - name: Ensure PR description exists
         run: |
-          # Read PR body into a SAFE variable (will not be executed)
           BODY="${{ github.event.pull_request.body }}"
 
-          echo "Preview of PR Body (first 200 chars):"
-          echo "${BODY:0:200}"
+          echo "PR Body preview (first 300 chars):"
+          echo "${BODY:0:300}"
 
-          # Remove all whitespace and check length
-          TRIMMED=$(echo "$BODY" | tr -d '[:space:]')
-
-          if [ -z "$TRIMMED" ]; then
+          # Remove all whitespace and check if anything remains
+          if [ -z "$(echo "$BODY" | tr -d '[:space:]')" ]; then
             echo "::error ::PR description cannot be empty. Please add details before requesting review."
             exit 1
           fi
