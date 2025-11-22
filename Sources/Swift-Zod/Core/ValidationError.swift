@@ -14,20 +14,20 @@ import Foundation
 /// - An optional `path` showing where in a nested object the error occurred
 ///
 /// `ValidationError` conforms to `Equatable` so it can be used in tests easily.
-// public struct ValidationError: Error, CustomStringConvertible, Equatable {
-//    /// Human-readable error message.
-//    public let message: String
-//
-//    /// Nested key path leading to the invalid value.
-//    public let path: [String]
-//
-//    public var description: String { message }
-//
-//    public init(_ message: String, path: [String] = []) {
-//        self.message = message
-//        self.path = path
-//    }
-// }
+/// public struct ValidationError: Error, CustomStringConvertible, Equatable {
+///    /// Human-readable error message.
+///    public let message: String
+///
+///    /// Nested key path leading to the invalid value.
+///    public let path: [String]
+///
+///    public var description: String { message }
+///
+///    public init(_ message: String, path: [String] = []) {
+///        self.message = message
+///        self.path = path
+///    }
+/// }
 
 public struct ValidationError: Error, CustomStringConvertible, Equatable {
     public let message: String

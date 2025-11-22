@@ -89,14 +89,22 @@ public final class ObjectSchema: Schema<[String: Any]> {
     }
 
     /// Recursively finds a DefaultSchema even if it's nested inside OptionalSchema
-    private func _findDefaultSchema(in validator: any Validator) -> (any _DefaultSchemaProtocol)? {
+    private func _findDefaultSchema(
+        in validator: any Validator
+    ) -> (any _DefaultSchemaProtocol)? {
         // Directly a DefaultSchema
         if let defaultSchema = validator as? any _DefaultSchemaProtocol {
             return defaultSchema
         }
 
         // If validator is an OptionalSchema, check inside its `wrapped` property
-        if let mirrorChild = Mirror(reflecting: validator).children.first(where: { $0.label == "wrapped" })?.value as? any Validator {
+        if let mirrorChild = Mirror(reflecting: validator)
+            .children
+            .first(
+                where: {
+                    $0.label == "wrapped"
+                })?.value as?
+            any Validator {
             return _findDefaultSchema(in: mirrorChild)
         }
 
