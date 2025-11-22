@@ -1,14 +1,3 @@
-name: CI / Lint and Tests
-
-on:
-  push:
-    branches:
-      - "**"
-  pull_request:
-    branches:
-      - "**"
-  workflow_dispatch:
-
 jobs:
   lint-and-test:
     name: Lint and Tests (macOS, Swift 6.2)
@@ -40,7 +29,8 @@ jobs:
           path: |
             .build
             .swiftpm
-          key: ${{ runner.os }}-swiftpm-${{ hashFiles('**/Package.resolved') }}
+          # Prevents hashFiles() from failing when Package.resolved doesn’t exist
+          key: ${{ runner.os }}-swiftpm-${{ hashFiles('Package.resolved', '**/Package.resolved') || 'no-resolved' }}
           restore-keys: |
             ${{ runner.os }}-swiftpm-
 
