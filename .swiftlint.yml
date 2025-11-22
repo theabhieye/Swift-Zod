@@ -1,0 +1,22 @@
+disabled_rules:
+  - identifier_name
+  - large_tuple
+
+opt_in_rules:
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - closure_spacing
+  - vertical_whitespace
+
+included:
+  - Sources
+
+excluded:
+  - .build
+  - Sources/Swift-Zod/Utils/Z.swift
+
+type_name:
+  allowed_symbols:
+    - "_DefaultSchemaProtocol"
+
+reporter: "emoji"

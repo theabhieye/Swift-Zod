@@ -132,7 +132,7 @@ public enum Z {
         UnionSchema<Any>(schemas)
     }
 
-    public enum coerce {
+    public enum Coerce {
         public static func string() -> CoerceSchema<StringSchema> {
             CoerceSchema(base: Z.string()) { value in
                 if let str = value as? String { return str }

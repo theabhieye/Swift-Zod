@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 /// Attempts to coerce raw input into a form consumable by `base` validator.
 /// If the coercer returns `nil`, parsing fails with a clear `ValidationError`.
 public final class CoerceSchema<Base: Validator>: Schema<Base.Output> {
