@@ -4,7 +4,7 @@ A super-fast, type-safe, composable validation library for Swift — inspired by
 [![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)]()
 ![Platform](https://img.shields.io/badge/Platforms-macOS_iOS_tvOS_watchOS-blue.svg)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)]()
-[![Build](https://github.com/abhishek-kapoor/SwiftZod/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/abhishek-kapoor/SwiftZod/actions/workflows/ci.yml)
+[![Build](https://github.com/theabhieye/Swift-Zod/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/theabhieye/Swift-Zod/actions/workflows/ci.yml)
 [![Code Coverage](https://img.shields.io/badge/Coverage-80%25+-brightgreen.svg)]()
 
 Swift-Zod is a modern validation library for Swift that makes it easy to **parse**, **validate**, and **refine** untyped data.  
