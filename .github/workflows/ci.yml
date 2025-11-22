@@ -33,6 +33,10 @@ jobs:
           swift --version || true
           uname -a
 
+      # Ensures Package.resolved exists so hashFiles will not fail
+      - name: Resolve SwiftPM dependencies
+        run: swift package resolve
+
       - name: Cache SPM build artifacts
         uses: actions/cache@v4
         id: swift-cache
