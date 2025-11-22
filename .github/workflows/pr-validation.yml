@@ -6,24 +6,28 @@ on:
 
 jobs:
   validate:
-    name: Validate Pull Request
+    name: Validate Pull Request Description
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out code
         uses: actions/checkout@v4
 
-      # ------------------------------------
-      # 📝 Ensure PR Description is not empty
-      # ------------------------------------
+      # -----------------------------------------------------------
+      # 📝 Ensure PR Description (Body) is NOT empty (safe version)
+      # -----------------------------------------------------------
       - name: Ensure PR description exists
         run: |
+          # Read PR body into a SAFE variable (will not be executed)
           BODY="${{ github.event.pull_request.body }}"
-          echo "PR Body:"
-          echo "$BODY"
 
-          # Check if description is empty or only whitespace
-          if [[ -z "$BODY" || "$BODY" =~ ^[[:space:]]*$ ]]; then
+          echo "Preview of PR Body (first 200 chars):"
+          echo "${BODY:0:200}"
+
+          # Remove all whitespace and check length
+          TRIMMED=$(echo "$BODY" | tr -d '[:space:]')
+
+          if [ -z "$TRIMMED" ]; then
             echo "::error ::PR description cannot be empty. Please add details before requesting review."
             exit 1
           fi
