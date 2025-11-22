@@ -1,0 +1,86 @@
+name: CI / Lint and Tests
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+  workflow_dispatch:
+
+jobs:
+  lint-and-test:
+    name: Lint and Tests (macOS, Swift 6.2)
+    runs-on: macos-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Swift 6.2
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: "6.2.0"
+
+      - name: Show environment
+        run: |
+          echo "Runner: $(sw_vers -productName) $(sw_vers -productVersion)"
+          echo "Swift:"
+          swift --version || true
+          uname -a
+
+      - name: Cache SPM build artifacts
+        uses: actions/cache@v4
+        id: swift-cache
+        with:
+          path: |
+            .build
+            .swiftpm
+          key: ${{ runner.os }}-swiftpm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-swiftpm-
+
+      - name: Install SwiftLint (required)
+        run: |
+          set -e
+          brew update
+          brew install swiftlint
+          echo "swiftlint version: $(swiftlint version)"
+
+      - name: Run SwiftLint (strict + required)
+        run: |
+          cd "$(git rev-parse --show-toplevel)"
+          echo "→ Running SwiftLint (strict)"
+          swiftlint lint --strict | tee swiftlint-output.txt
+          LINT_EXIT=${PIPESTATUS[0]}
+          if [ "$LINT_EXIT" -ne 0 ]; then
+            echo "✖ SwiftLint detected issues. See swiftlint-output.txt"
+            exit $LINT_EXIT
+          fi
+          echo "✔ SwiftLint passed with no violations."
+
+      - name: Run tests
+        run: |
+          cd "$(git rev-parse --show-toplevel)"
+          echo "→ Running tests (swift test)…"
+          set -o pipefail
+          swift test 2>&1 | tee tests-output.log
+          TEST_EXIT=${PIPESTATUS[0]}
+          if [ "$TEST_EXIT" -ne 0 ]; then
+            echo "✖ Unit tests failed. See tests-output.log"
+            exit $TEST_EXIT
+          fi
+          echo "✔ All tests passed."
+
+      - name: Upload logs (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-logs
+          path: |
+            swiftlint-output.txt
+            tests-output.log

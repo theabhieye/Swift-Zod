@@ -1,5 +1,9 @@
 .PHONY: lint lint-fix test install-hooks
 
+ci:
+	swiftlint lint --strict
+	swift test
+
 lint:
 	./scripts/lint.sh
 
