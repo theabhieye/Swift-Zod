@@ -1,0 +1,15 @@
+{
+  "originHash" : "cde4b8abd6253c78c49e85454848652e6c16f8853399f62e0cba34d4cf8f5dfd",
+  "pins" : [
+    {
+      "identity" : "swift-zod",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/theabhieye/swift-zod/",
+      "state" : {
+        "branch" : "main",
+        "revision" : "7ad57ee8b4ffccdb2e48fe292b08063cf1c18fa8"
+      }
+    }
+  ],
+  "version" : 3
+}
