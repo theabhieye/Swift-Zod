@@ -10,7 +10,7 @@
 //
 // Created by ChatGPT
 
-@testable import Swift_Zod
+@testable import SwiftZod
 import XCTest
 
 final class CoerceSchemaEdgeCasesTests: XCTestCase {

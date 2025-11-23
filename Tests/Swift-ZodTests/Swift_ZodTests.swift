@@ -1,7 +1,7 @@
-@testable import Swift_Zod
+@testable import SwiftZod
 import XCTest
 
-final class Swift_ZodTests: XCTestCase {
+final class SwiftZodTests: XCTestCase {
     func testExample() throws {
         // XCTest Documentation
         // https://developer.apple.com/documentation/xctest

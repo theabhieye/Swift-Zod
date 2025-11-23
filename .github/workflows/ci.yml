@@ -33,20 +33,9 @@ jobs:
           swift --version || true
           uname -a
 
-      # Ensures Package.resolved exists so hashFiles will not fail
+      # Resolve dependencies so Package.resolved is created for the build/test steps
       - name: Resolve SwiftPM dependencies
         run: swift package resolve
-
-      - name: Cache SPM build artifacts
-        uses: actions/cache@v4
-        id: swift-cache
-        with:
-          path: |
-            .build
-            .swiftpm
-          key: ${{ runner.os }}-swiftpm-${{ hashFiles('**/Package.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-swiftpm-
 
       - name: Install SwiftLint (required)
         run: |

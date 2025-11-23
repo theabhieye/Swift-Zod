@@ -5,7 +5,7 @@
 //  Created by Abhishek kapoor on 09/11/25.
 //
 
-@testable import Swift_Zod
+@testable import SwiftZod
 import XCTest
 
 final class EncodableValidationTests: XCTestCase {
