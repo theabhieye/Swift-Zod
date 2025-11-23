@@ -1,6 +1,6 @@
 //
 //  ArraySchema.swift
-//  Swift_Zod
+//  SwiftZod
 //
 //  Created by Abhishek Kapoor on 09/11/25.
 //
